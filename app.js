@@ -5,6 +5,7 @@ const rootDir = require('./util/path');
 const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
 const contactsRouter = require('./routes/contactus');
+const errorControlar = require('./controller/404');
 
 const app = express();
 
@@ -16,8 +17,6 @@ app.use('/admin', adminRouter);
 app.use('/shop', shopRouter);
 app.use('/contactus', contactsRouter);
 
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(rootDir, 'views', 'defalut.html'));
-})
+app.use(errorControlar.errorPage);
 
 app.listen(4000);
