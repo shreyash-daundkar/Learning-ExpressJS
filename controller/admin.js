@@ -1,5 +1,6 @@
 const path = require('path');
 const rootDir = require('../util/path');
+const productModel = require('../models/product');
 
 exports.addProductForm = (req, res, next) => {
     res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
@@ -7,6 +8,8 @@ exports.addProductForm = (req, res, next) => {
 
 exports.addProduct = (req, res, next) => {
     console.log(req.body);
+    const product = new productModel(req.body.title);
+    product.save();
     res.redirect('/admin');
 }
 
