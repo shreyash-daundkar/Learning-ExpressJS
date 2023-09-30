@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
+const rootDir = require('./util/path');
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.use('/admin', adminRouter);
 app.use('/shop', shopRouter);
 
 app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', 'defalut.html'));
+    res.status(404).sendFile(path.join(rootDir, 'views', 'defalut.html'));
 })
 
 app.listen(4000);
