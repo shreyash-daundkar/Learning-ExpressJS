@@ -5,8 +5,9 @@ const rootDir = require('../util/path');
 const dataPath = path.join(rootDir, 'data', 'products.json');
 
 module.exports = class Product {
-    constructor(title) {
-        this.title = title;
+    constructor(p) {
+        this.name = p.productName;
+        this.price = p.productPrice;
     }
 
     async save() {
@@ -33,8 +34,10 @@ module.exports = class Product {
 
     static async productDetails(id) {
         const products = await Product.fetchAll();
+        let res = null;
         products.forEach(product => {
-            if(product.id == parseInt(id)) console.log(product);
+            if(product.id == parseInt(id)) res = product;
         });
+        return res;
     }
 }

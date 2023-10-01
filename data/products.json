@@ -1,1 +1,1 @@
-[{"title":"tv","id":1},{"title":"phone","id":2},{"title":"book","id":3}]
+[{"name":"book","price":"23","id":1},{"name":"tv","price":"23000","id":2},{"name":"table","price":"34","id":3}]

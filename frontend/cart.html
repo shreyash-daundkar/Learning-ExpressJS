@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <h1>Your Cart</h1>
+
+    <nav>
+        <div class="container">
+            <a href="#">Home</a>
+            <a href="add-product.html">Add Product</a>
+            <a href="display-products.html">Display Products</a>
+            <a href="cart.html">Cart</a>
+        </div>
+    </nav>
+
+    <ul id="cartItems">
+        <!-- Cart items will be dynamically generated here -->
+    </ul>
+
+    <h2>Total: $<span id="totalPrice">0</span></h2>
+
+    <br>
+    <a href="display-products.html">Continue Shopping</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+
+    <script>
+        // Sample cart data
+        const cart = [
+            { id: 1, name: 'Product 1', price: 10, quantity: 2 },
+            { id: 2, name: 'Product 2', price: 15, quantity: 1 }
+        ];
+
+        const cartItems = document.getElementById('cartItems');
+        const totalPriceElem = document.getElementById('totalPrice');
+
+        let total = 0;
+
+        cart.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                ${item.name} - $${item.price} x ${item.quantity} = $${item.price * item.quantity}
+            `;
+            cartItems.appendChild(listItem);
+
+            total += item.price * item.quantity;
+        });
+
+        totalPriceElem.textContent = total;
+    </script>
+</body>
+
+</html>

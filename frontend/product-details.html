@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Details</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <h1>Product Details</h1>
+
+    <nav>
+      <div class="container">
+        <a href="#">Home</a>
+        <a href="add-product.html">Add Product</a>
+        <a href="display-products.html">Display Products</a>
+        <a href="cart.html">Cart</a>
+      </div>
+    </nav>
+
+    <div id="productDetails">
+      <!-- Dynamic product details populated using JS -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+
+    <script>
+
+      let productId = new URLSearchParams(window.location.search).get("id").trim();
+      productId = parseInt(productId);
+      console.log(`http://localhost:4000/shop/${productId}`);
+      axios
+        .get(`http://localhost:4000/shop/${productId}`)
+        .then( res => {
+          const product = res.data;
+          if (product) {
+            document.getElementById("productDetails").innerHTML = `
+                <h2>${product.name}</h2>
+                <p>Price: $${product.price}</p>
+                <p>Description: ${product.description}</p>
+            `;
+          } else {
+            document.getElementById("productDetails").innerText =
+              "Product not found!";
+          }
+        });
+    </script>
+  </body>
+</html>
