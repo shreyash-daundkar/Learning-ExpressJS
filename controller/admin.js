@@ -7,7 +7,6 @@ exports.addProductForm = (req, res, next) => {
 }
 
 exports.addProduct = (req, res, next) => {
-    console.log(req.body);
     const product = new productModel(req.body.title);
     product.save();
     res.redirect('/admin');
