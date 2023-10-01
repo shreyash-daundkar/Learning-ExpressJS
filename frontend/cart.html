@@ -33,27 +33,27 @@
 
     <script>
         // Sample cart data
-        const cart = [
-            { id: 1, name: 'Product 1', price: 10, quantity: 2 },
-            { id: 2, name: 'Product 2', price: 15, quantity: 1 }
-        ];
+        axios.get('http://localhost:4000/cart').then(res => {
 
-        const cartItems = document.getElementById('cartItems');
-        const totalPriceElem = document.getElementById('totalPrice');
-
-        let total = 0;
-
-        cart.forEach(item => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                ${item.name} - $${item.price} x ${item.quantity} = $${item.price * item.quantity}
-            `;
-            cartItems.appendChild(listItem);
-
-            total += item.price * item.quantity;
+            const cart = res.data;
+    
+            const cartItems = document.getElementById('cartItems');
+            const totalPriceElem = document.getElementById('totalPrice');
+            
+            if(cart.products.length != 0) {
+                cart.products.forEach(data => {
+                    const item = data.product;
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                    ${item.name} - $${item.price} x ${data.quantity} = $${item.price * data.quantity} 
+                    `;
+                    cartItems.appendChild(listItem);
+        
+                    totalPriceElem.textContent = cart.totalPrice;
+                });
+            }
         });
 
-        totalPriceElem.textContent = total;
     </script>
 </body>
 
