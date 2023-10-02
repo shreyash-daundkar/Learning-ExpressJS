@@ -6,8 +6,8 @@ const dataPath = path.join(rootDir, 'data', 'products.json');
 
 module.exports = class Product {
     constructor(p) {
-        this.name = p.productName;
-        this.price = p.productPrice;
+        this.name = p.name;
+        this.price = p.price;
     }
 
     async save() {
@@ -39,5 +39,26 @@ module.exports = class Product {
             if(product.id == parseInt(id)) res = product;
         });
         return res;
+    }
+
+    static async edit(id, data) {
+        const products = await Product.fetchAll();
+        products.forEach(product => {
+            if(product.id == parseInt(id)) {
+                product.name = data.name;
+                product.price = data.price;
+            }
+        });
+        fs.writeFile(dataPath, JSON.stringify(products) , err => {
+            if(err) throw err;
+        });
+    }
+
+    static async delete(id) {
+        const products = await Product.fetchAll();
+        const newProducts = products.filter(product => product.id !== parseInt(id));
+        fs.writeFile(dataPath, JSON.stringify(newProducts) , err => {
+            if(err) throw err;
+        });
     }
 }

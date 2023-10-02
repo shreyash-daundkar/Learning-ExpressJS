@@ -15,6 +15,7 @@
         <a href="add-product.html">Add Product</a>
         <a href="display-products.html">Display Products</a>
         <a href="cart.html">Cart</a>
+        <a href="display-products.html?admin=true">Admin</a>
       </div>
     </nav>
 
@@ -25,18 +26,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
 
     <script>
+
+      admin = new URLSearchParams(window.location.search).get('admin');
+
+      if(admin) document.querySelector('h1').textContent = 'Admin';
+
+      
       axios.get("http://localhost:4000/shop").then((res) => {
         const products = res.data;
         const productList = document.getElementById("productList");
-
+        
         products.forEach((product) => {
           const productItem = document.createElement("li");
           productItem.setAttribute('data-id', product.id);
-          productItem.innerHTML = `
-                ${product.name} - ${product.price} 
-                <button class="addToCartBtn">Add to Cart</button> 
-                <a href="product-details.html?id=${product.id}">Details</a>
-            `;
+          if(admin) {
+            productItem.innerHTML = `
+                  ${product.name} - ${product.price} 
+                  <button class="addToCartBtn">Delete</button> 
+                  <a href="add-product.html?edit=true&id=${product.id}">Edit</a>
+              `;
+          } else {
+            productItem.innerHTML = `
+                  ${product.name} - ${product.price} 
+                  <button class="addToCartBtn">Add to Cart</button> 
+                  <a href="product-details.html?id=${product.id}">Details</a>
+              `;
+          }
           productList.appendChild(productItem);
         });
 
@@ -44,8 +59,11 @@
           if(!e.target.classList.contains('addToCartBtn')) return;
           const id = e.target.parentElement.getAttribute('data-id');
           const data = { "id" : id} 
-          console.log(data)
-          axios.post('http://localhost:4000/cart/add-product', data)
+          if(admin) {
+            axios.post('http://localhost:4000/admin/delete-product', data)
+          } else {
+            axios.post('http://localhost:4000/cart/add-product', data)
+          }
         })
 
       });
