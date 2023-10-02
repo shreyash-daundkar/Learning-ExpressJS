@@ -10,3 +10,7 @@ exports.addProduct = async (req, res, next) => {
     const cartItem = new CartController(product);
     cartItem.save();
 }
+
+exports.deleteProduct = (req, res, next) => {
+    CartController.delete(req.body.id);
+}

@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const rootDir = require('../util/path');
+const cartModel = require('./cart');
 
 const dataPath = path.join(rootDir, 'data', 'products.json');
 
@@ -60,5 +61,6 @@ module.exports = class Product {
         fs.writeFile(dataPath, JSON.stringify(newProducts) , err => {
             if(err) throw err;
         });
+        cartModel.delete(id);
     }
 }

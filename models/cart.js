@@ -45,4 +45,16 @@ module.exports = class Cart {
             });
         });
     }
+
+    static async delete(id) {
+        const data = await Cart.fetchCart();
+        data.products.forEach(item => {
+            const product = item.product;
+            if(product.id === parseInt(id)) data.totalPrice -= product.price * item.quantity;
+        })
+        data.products = data.products.filter(item => item.product.id !== parseInt(id));
+        fs.writeFile(dataPath, JSON.stringify(data) , err => {
+            if(err) throw err;
+        });
+    }
 }
