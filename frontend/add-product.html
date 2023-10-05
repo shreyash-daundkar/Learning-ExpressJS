@@ -57,7 +57,8 @@
             }
             let route = '/admin/add-product'
             if(edit) route += `/${id}`;
-            axios.post(url + route, product);
+            axios.post(url + route, product)
+            window.location.href = 'display-products.html?admin=true';
         });
         
     </script>

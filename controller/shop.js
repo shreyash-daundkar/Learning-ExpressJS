@@ -3,9 +3,9 @@ const rootDir = require('../util/path');
 const ProductModel = require('../models/product');
 
 exports.shopPage = async (req, res, next) => {
-    res.json(await ProductModel.fetchAll());
+    res.json(await ProductModel.findAll());
 }
 
 exports.productDetails = async (req, res, next) => {
-    res.json(await ProductModel.productDetails(req.params.productId));
+    res.json(await ProductModel.findByPk(req.params.productId));
 }
