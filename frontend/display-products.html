@@ -27,12 +27,12 @@
 
     <script>
 
-      admin = new URLSearchParams(window.location.search).get('admin');
+      const admin = new URLSearchParams(window.location.search).get('admin');
+      let api = 'http://localhost:4000/shop';
 
       if(admin) document.querySelector('h1').textContent = 'Admin';
 
-      
-      axios.get("http://localhost:4000/shop").then((res) => {
+      axios.get(api).then((res) => {
         const products = res.data;
         const productList = document.getElementById("productList");
         
