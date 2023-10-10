@@ -55,16 +55,17 @@
           productList.appendChild(productItem);
         });
 
-        document.querySelector('#productList').addEventListener('click', e => {
+        document.querySelector('#productList').addEventListener('click', async e => {
           if(!e.target.classList.contains('addToCartBtn')) return;
           const id = e.target.parentElement.getAttribute('data-id');
           const data = { "id" : id} 
           if(admin) {
             axios.post('http://localhost:4000/admin/delete-product', data)
+            window.location.href = 'display-products.html?admin=true';
           } else {
             axios.post('http://localhost:4000/cart/add-product', data)
+            window.location.href = 'cart.html';
           }
-          window.location.href = 'display-products.html?admin=true';
         });
 
       });

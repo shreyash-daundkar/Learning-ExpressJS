@@ -12,8 +12,10 @@ const errorControlar = require('./controller/404');
 
 const sequelize = require('./util/database');
 
-const User = require('./models/user')
-const Product = require('./models/product')
+const User = require('./models/user');
+const Product = require('./models/product');
+const Cart = require('./models/cart');
+const CartItems = require('./models/cartItems');
 
 const app = express();
 
@@ -35,10 +37,18 @@ app.use(errorControlar.errorPage);
 
 Product.belongsTo(User, {constraints : true, onDelete : 'CASCADE'});
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Product.belongsToMany(Cart, {through: CartItems});
+Cart.belongsToMany(Product, {through: CartItems});
 
-sequelize.sync()
- .then(() => User.findByPk(1))
- .then(user => user == null ? User.create({name: 'Shreyash Daundkar', email: 'shreyashdaundkar@gamil.com'}) : user)
- .then(user => app.listen(4000))
-.catch(err => console.log(err));
+createServer();
 
+async function createServer() {
+    const seq = await sequelize.sync();
+    const user = await User.findByPk(1);
+    user == null ? await User.create({name: 'Shreyash Daundkar', email: 'shreyashdaundkar@gamil.com'}) : user;
+    const cart = await user.getCart();
+    cart == null ? await user.createCart({total: 0}) : cart;
+    app.listen(4000);
+}

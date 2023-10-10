@@ -41,25 +41,26 @@
             const totalPriceElem = document.getElementById('totalPrice');
             
             if(cart.products.length != 0) {
-                cart.products.forEach(data => {
-                    const item = data.product;
+                cart.products.forEach(item => {
+                    //const item = data.product;
                     const listItem = document.createElement('li');
                     listItem.setAttribute('data-id', item.id);
                     listItem.innerHTML = `
-                    ${item.name} - $${item.price} x ${data.quantity} = $${item.price * data.quantity}
+                    ${item.name} - $${item.price} x ${item.cartItems.quantity} = $${item.price * item.cartItems.quantity}
                     <button class="addToCartBtn">Delete</button>  
                     `;
                     cartItems.appendChild(listItem);
         
-                    totalPriceElem.textContent = cart.totalPrice;
+                    totalPriceElem.textContent = cart.total;
                 });
             }
         });
 
-        document.querySelector('#cartItems').addEventListener('click', e => {
+        document.querySelector('#cartItems').addEventListener('click', async e => {
             if(!e.target.classList.contains('addToCartBtn')) return;
             const id = e.target.parentNode.getAttribute('data-id');
             axios.post('http://localhost:4000/cart/delete', {id});
+            window.location.href = 'cart.html';
         })
 
     </script>
